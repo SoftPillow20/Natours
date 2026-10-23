@@ -1,6 +1,7 @@
-import { User } from "../models/userModel";
+import { User } from "../models/userModel.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
-export const signup = async (req, res, next) => {
+export const signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
 
   res.status(201).json({
@@ -9,4 +10,4 @@ export const signup = async (req, res, next) => {
       user: newUser,
     },
   });
-};
+});
