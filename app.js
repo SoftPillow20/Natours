@@ -35,4 +35,10 @@ app.all("/{*any}", (req, res, next) => {
 // Global error handling middleware
 app.use(globalErrorHandler); // automatically becomes an error handling middleware (requires 4 parameters)
 
+app.get("./utils/config.js", (req, res) => {
+  res
+    .type("js")
+    .send(`window.MAPBOX_TOKEN = ${JSON.stringify(process.env.MAPBOX_TOKEN)};`);
+});
+
 export default app;
