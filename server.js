@@ -15,7 +15,7 @@ await mongoose.connect(process.env.DATABASE);
 
 // 4) START SERVER
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
@@ -25,5 +25,7 @@ app.listen(port, () => {
 process.on("unhandledRejection", (err) => {
   console.log(err.name, err.message);
   console.log("UNHANDLER REJECTION! shutting down...");
-  process.exit(1);
+  server.close(() => {
+    process.exit(1);
+  });
 });
