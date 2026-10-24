@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema({
     trim: true,
     maxlength: [12, "password must not exceed 12 characters"],
     minlength: [6, "password must be more than or equals to 6 characters"],
+    select: false,
   },
   passwordConfirm: {
     type: String,
@@ -51,5 +52,12 @@ userSchema.pre("save", async function () {
   // Delete passwordConfirm Field
   this.passwordConfirm = undefined;
 });
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword,
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 export const User = mongoose.model("User", userSchema);
